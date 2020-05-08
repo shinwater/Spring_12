@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<!-- Root Context: defines shared resources visible to all other web components -->
+		
+		<!-- DB와 관련;된 설정파일 설정하는 공간 -->
+		
+		<!-- MyBatis와 관련된 스프링 설정순서 -->
+		
+		<!-- 1.DataSource 설정 -->
+		
+		<bean name="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+			<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
+			<property name="url" value="jdbc:oracle:thin:@localhost:1521:XE"/>
+			<property name="username" value="genie"/>
+			<property name="password" value="1234"/>
+		</bean>
+		
+		
+		<!-- 2.sqlSessionFactory 클래스 설정 -->
+		<bean name="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+			<property name="dataSource" ref="dataSource"/>
+			<property name="mapperLocations" value="classpath:/mapper/*.xml"/>
+		</bean>
+		
+		<!-- 3.sqlSessionTemplate 클래스 설정 -->
+		<bean name="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+			<constructor-arg ref="sqlSessionFactory"/>
+		</bean>
+		
+		<!-- 이제 sqlSessionTemplate을 DAO에만 넣어주면 끝~~ -->
+</beans>
